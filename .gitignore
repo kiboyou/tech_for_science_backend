@@ -5,6 +5,7 @@ __pycache__/
 *.pyd
 
 # Environnement virtuel
+env/
 .venv/
 .env
 .config_db
