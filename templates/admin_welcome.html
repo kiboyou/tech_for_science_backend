@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bienvenue • TECH FOR SCIENCE – Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #f1c016;
+      --teal: #2dabb2;
+      --bg: #0b1020;
+      --panel: #121a32;
+      --text: #e9eef9;
+      --muted: #a6b3d0;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7fafc;
+        --panel: #ffffff;
+        --text: #0b1020;
+        --muted: #4b5563;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(45,171,178,0.25), transparent 60%),
+                  radial-gradient(1200px 800px at -10% 110%, rgba(241,192,22,0.2), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+    .card {
+      width: 100%;
+      max-width: 920px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .header {
+      padding: 32px 32px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo {
+      width: 56px; height: 56px;
+      border-radius: 12px;
+      background: #fff;
+      display: grid; place-items: center;
+      color: #0b1020; font-weight: 800;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    h1 { margin: 0; font-size: 28px; letter-spacing: 0.2px; }
+    .sub { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+    .content { padding: 8px 32px 28px; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 24px;
+      display: grid;
+      gap: 10px;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 999px;
+      background: rgba(45,171,178,0.15);
+      color: #cffafe;
+      font-size: 12px; letter-spacing: 0.3px; text-transform: uppercase;
+      border: 1px solid rgba(45,171,178,0.35);
+    }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 12px 16px; gap: 10px; border-radius: 10px;
+      background: linear-gradient(180deg, var(--gold), #eab308);
+      color: #111827; font-weight: 700; text-decoration: none;
+      border: none; cursor: pointer;
+      box-shadow: 0 12px 24px rgba(241,192,22,0.25), inset 0 1px 0 rgba(255,255,255,0.45);
+      transition: transform .15s ease, filter .2s ease;
+    }
+    .cta:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .cta:active { transform: translateY(0); filter: brightness(0.98); }
+    .footer { padding: 16px 32px 28px; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="logo">
+        <img src="/static/media/img_tech_s.png" alt="Tech For Science" style="width:100%; height:100%; object-fit:cover" />
+      </div>
+      <div>
+        <h1>Bienvenue sur l'administration de TECH FOR SCIENCE</h1>
+        <p class="sub">Gérez ateliers, blog, équipe, bénévoles, sponsors et établissements à partir de ce panneau.</p>
+      </div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <span class="pill">Admin</span>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+          <div>
+            <h2 style="margin:0 0 6px; font-size:20px">Tech For Science – Panneau d'administration</h2>
+            <p style="margin:0; color:var(--muted)">Accédez aux fonctionnalités avancées et à la gestion des contenus.</p>
+          </div>
+          <a class="cta" href="/admin/" rel="nofollow">Accéder à l'admin →</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer">© <script>document.write(new Date().getFullYear())</script> TECH FOR SCIENCE</div>
+  </div>
+  <script>
+    // Optional override via ?theme=dark|light
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const theme = params.get('theme');
+      if(!theme) return;
+      const root = document.documentElement;
+      if(theme === 'light'){
+        root.style.setProperty('--bg', '#f7fafc');
+        root.style.setProperty('--panel', '#ffffff');
+        root.style.setProperty('--text', '#0b1020');
+        root.style.setProperty('--muted', '#4b5563');
+      } else if(theme === 'dark'){
+        root.style.setProperty('--bg', '#0b1020');
+        root.style.setProperty('--panel', '#121a32');
+        root.style.setProperty('--text', '#e9eef9');
+        root.style.setProperty('--muted', '#a6b3d0');
+      }
+    })();
+  </script>
+</body>
+</html>

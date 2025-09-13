@@ -1,0 +1,43 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+
+# Environnement virtuel
+.venv/
+.env
+.config_db
+
+volume_data/
+
+# Fichiers de configuration de l'IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers de log
+*.log
+
+# Fichiers de base de données
+db.sqlite3
+*.sqlite3
+
+# Dossiers de migration
+*/migrations/__init__.py
+
+# Dossiers de fichiers statiques collectés
+/static/
+media/
+
+# fichiers secrets
+*.env
+*.local
+
+# Autres fichiers générés
+*.DS_Store
+*.egg-info/
+dist/
+build/
+*.egg
