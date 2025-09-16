@@ -18,7 +18,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
@@ -42,15 +41,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    # Home page: nice welcome screen for the Admin site
-    path(
-        "",
-        TemplateView.as_view(template_name="admin_welcome.html"),
-        name="home",
-    ),
-    path("admin/", admin.site.urls),
-    # Django i18n: provides the built-in 'set_language' view used by language choosers
-    path('i18n/', include('django.conf.urls.i18n')),
+    path("", admin.site.urls),
     
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
@@ -62,7 +53,6 @@ urlpatterns = [
     path('api/groupe/<int:pk>/', GroupViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name="groupeUtilisateur-detail"),
     
     path('api/user/', include('user.urls')),
-    path('api/main/', include('main.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
