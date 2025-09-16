@@ -21,6 +21,7 @@ class Atelier(TimeStampedModel):
 	end_date = models.DateTimeField("Date de fin", blank=True, null=True)
 	location = models.CharField("Lieu", max_length=200, blank=True)
 	is_published = models.BooleanField("Publié", default=True)
+	is_promoted = models.BooleanField("Mis en avant", default=False)
 
 	class Meta:
 		ordering = ["-start_date", "-created_at"]
@@ -74,6 +75,7 @@ class TeamMember(TimeStampedModel):
 	email = models.EmailField("Email", blank=True)
 	order = models.PositiveIntegerField("Ordre", default=0)
 	active = models.BooleanField("Actif", default=True)
+	is_featured = models.BooleanField("À la une", default=False)
 
 	class Meta:
 		ordering = ["order", "name"]
@@ -123,6 +125,42 @@ class BlogImage(TimeStampedModel):
 
 	def __str__(self) -> str:
 		return f"BlogImage({self.post_id}) #{self.id}"
+
+
+class Info(TimeStampedModel):
+	TYPE_CHOICES = (
+		("concours", "Concours"),
+		("bourse", "Bourses"),
+		("challenge", "Challenges"),
+	)
+	# Base
+	title = models.CharField("Titre", max_length=200)
+	slug = models.SlugField("Slug", unique=True, max_length=220, blank=True)
+	info_type = models.CharField("Type", max_length=20, choices=TYPE_CHOICES)
+	excerpt = models.TextField("Résumé", blank=True)
+	content = models.TextField("Contenu / Détails", blank=True)
+	procedure = models.TextField("Procédure / Étapes", blank=True)
+	link_url = models.URLField("Lien externe", blank=True, null=True, max_length=500)
+	deadline = models.DateTimeField("Date limite", blank=True, null=True)
+	cover_image = models.URLField("Image de couverture (Cloudinary)", blank=True, null=True, max_length=500)
+	is_published = models.BooleanField("Publié", default=True)
+	# Promotion window
+	is_promoted = models.BooleanField("Mis en avant", default=False)
+	promote_start = models.DateTimeField("Début de promotion", blank=True, null=True)
+	promote_end = models.DateTimeField("Fin de promotion", blank=True, null=True)
+
+	class Meta:
+		ordering = ["-deadline", "-created_at"]
+		verbose_name = "Information (concours/bourse/challenge)"
+		verbose_name_plural = "Informations"
+
+	def __str__(self) -> str:
+		return f"{self.title} – {self.get_info_type_display()}"
+
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.title)[:220]
+		super().save(*args, **kwargs)
 
 
  

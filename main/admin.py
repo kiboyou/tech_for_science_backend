@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from .models import (Atelier, AtelierImage, BlogImage, BlogPost,
-                     ContactMessage, EstablishmentRequest, TeamMember,
+                     ContactMessage, EstablishmentRequest, Info, TeamMember,
                      VolunteerApplication)
 
 
@@ -55,8 +55,8 @@ class AtelierForm(forms.ModelForm):
 
 @admin.register(Atelier)
 class AtelierAdmin(admin.ModelAdmin):
-	list_display = ("title", "start_date", "end_date", "location", "is_published")
-	list_filter = ("is_published", "start_date")
+	list_display = ("title", "start_date", "end_date", "location", "is_published", "is_promoted")
+	list_filter = ("is_published", "is_promoted", "start_date")
 	search_fields = ("title", "summary", "content", "location")
 	prepopulated_fields = {"slug": ("title",)}
 	form = AtelierForm
@@ -132,8 +132,8 @@ class TeamMemberForm(forms.ModelForm):
 
 @admin.register(TeamMember)
 class TeamMemberAdmin(admin.ModelAdmin):
-	list_display = ("name", "role", "order", "active")
-	list_filter = ("active",)
+	list_display = ("name", "role", "order", "active", "is_featured")
+	list_filter = ("active", "is_featured")
 	search_fields = ("name", "role", "bio", "email")
 	ordering = ("order", "name")
 	form = TeamMemberForm
@@ -164,3 +164,11 @@ class ContactMessageAdmin(admin.ModelAdmin):
 	list_display = ("name", "email", "subject", "created_at")
 	search_fields = ("name", "email", "subject")
 	readonly_fields = ("created_at", "updated_at")
+
+
+@admin.register(Info)
+class InfoAdmin(admin.ModelAdmin):
+	list_display = ("title", "info_type", "deadline", "is_published", "is_promoted", "promote_start", "promote_end")
+	list_filter = ("info_type", "is_published", "is_promoted")
+	search_fields = ("title", "excerpt", "content", "procedure")
+	prepopulated_fields = {"slug": ("title",)}

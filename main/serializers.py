@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from .models import (Atelier, AtelierImage, BlogImage, BlogPost,
-                     ContactMessage, EstablishmentRequest, SponsorApplication,
-                     TeamMember, VolunteerApplication)
+                     ContactMessage, EstablishmentRequest, Info,
+                     SponsorApplication, TeamMember, VolunteerApplication)
 
 
 class AtelierImageSerializer(serializers.ModelSerializer):
@@ -70,6 +70,12 @@ class BlogPostSerializer(serializers.ModelSerializer):
 class TeamMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamMember
+        fields = "__all__"
+
+
+class InfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Info
         fields = "__all__"
 
 

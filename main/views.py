@@ -1,10 +1,15 @@
+from django.db import models
+from django.utils import timezone
 from rest_framework import filters, permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from .models import (Atelier, BlogPost, ContactMessage, EstablishmentRequest,
-                     SponsorApplication, TeamMember, VolunteerApplication)
+                     Info, SponsorApplication, TeamMember,
+                     VolunteerApplication)
 from .serializers import (AtelierSerializer, BlogPostSerializer,
                           ContactMessageSerializer,
-                          EstablishmentRequestSerializer,
+                          EstablishmentRequestSerializer, InfoSerializer,
                           SponsorApplicationSerializer, TeamMemberSerializer,
                           VolunteerApplicationSerializer)
 
@@ -38,6 +43,12 @@ class AtelierViewSet(BaseModelViewSet):
 	ordering_fields = ["start_date", "created_at", "title"]
 	lookup_field = "slug"
 
+	@action(detail=False, methods=["get"], url_path="promoted")
+	def promoted(self, request):
+		qs = self.get_queryset().filter(is_published=True, is_promoted=True)
+		serializer = self.get_serializer(qs, many=True)
+		return Response(serializer.data)
+
 
 class BlogPostViewSet(BaseModelViewSet):
 	queryset = BlogPost.objects.all().prefetch_related("images")
@@ -52,6 +63,33 @@ class TeamMemberViewSet(BaseModelViewSet):
 	serializer_class = TeamMemberSerializer
 	search_fields = ["name", "role", "bio", "email"]
 	ordering_fields = ["order", "name", "created_at"]
+
+
+class InfoViewSet(BaseModelViewSet):
+	queryset = Info.objects.filter(is_published=True)
+	serializer_class = InfoSerializer
+	search_fields = ["title", "excerpt", "content", "procedure"]
+	ordering_fields = ["deadline", "created_at", "title"]
+	lookup_field = "slug"
+
+	def get_queryset(self):
+		qs = super().get_queryset()
+		t = self.request.query_params.get("info_type")
+		if t:
+			qs = qs.filter(info_type=t)
+		return qs
+
+	@action(detail=False, methods=["get"], url_path="promoted")
+	def promoted(self, request):
+		now = timezone.now()
+		qs = self.get_queryset().filter(
+			is_promoted=True
+		).filter(
+			models.Q(promote_start__isnull=True) | models.Q(promote_start__lte=now),
+			models.Q(promote_end__isnull=True) | models.Q(promote_end__gte=now),
+		)
+		serializer = self.get_serializer(qs, many=True)
+		return Response(serializer.data)
 
 
  
@@ -83,4 +121,5 @@ class ContactMessageViewSet(CreateOpenViewSet):
 	serializer_class = ContactMessageSerializer
 	search_fields = ["name", "email", "subject"]
 	ordering_fields = ["created_at", "name"]
+ 
  
