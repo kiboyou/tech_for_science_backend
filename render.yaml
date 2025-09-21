@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: tech-for-science-backend
+    runtime: python3
+    rootDir: .
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirement.txt && python manage.py collectstatic --noinput
+    startCommand: python manage.py migrate --noinput && gunicorn config.wsgi:application --log-file -
+    autoDeploy: true
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tech-for-science
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: "tech-for-science-backend.onrender.com,localhost,127.0.0.1"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://tech-for-science.vercel.app,https://www.tech-for-science.vercel.app,https://tech-for-science.fr"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://tech-for-science.vercel.app,https://www.tech-for-science.vercel.app,https://tech-for-science.fr"
+
+databases:
+  - name: tech-for-science
+    plan: free
+    region: frankfurt
