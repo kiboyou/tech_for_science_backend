@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from urllib.parse import urlparse
 
 import dj_database_url
 from decouple import Csv, config
@@ -33,6 +34,16 @@ DEBUG = config('DEBUG', cast=bool, default=False)
 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='localhost,127.0.0.1')
+
+# If running on Render, auto-allow the external hostname
+_render_external_url = os.getenv("RENDER_EXTERNAL_URL")
+if _render_external_url:
+    try:
+        _h = urlparse(_render_external_url).hostname
+        if _h and _h not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS = [*ALLOWED_HOSTS, _h]
+    except Exception:
+        pass
 
 
 # Application definition
