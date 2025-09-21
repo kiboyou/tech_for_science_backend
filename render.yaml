@@ -5,10 +5,13 @@ services:
     rootDir: .
     plan: free
     region: frankfurt
-    buildCommand: pip install -r requirement.txt && python manage.py collectstatic --noinput
+    # Upgrade pip first to ensure latest wheel support
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt && python manage.py collectstatic --noinput
     startCommand: python manage.py migrate --noinput && gunicorn config.wsgi:application --log-file -
     autoDeploy: true
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.5"
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY
