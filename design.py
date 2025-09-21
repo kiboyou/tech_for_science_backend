@@ -4,9 +4,9 @@ JAZZMIN_SETTINGS = {
     "site_header": "Tech Pour Science",
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_brand": "Tech Pour Science",
-    # Custom logo (should be in static/media/img_tech_s.png)
-    "site_logo": "media/img_tech_s.png",
-    "login_logo": "media/img_tech_s.png",
+    # Custom logo (should be in static/static/img_tech_s.png)
+    "site_logo": "img_tech_s.png",
+    "login_logo": "img_tech_s.png",
     "site_logo_classes": "img-circle elevation-2",
     "site_icon": None,
     # Welcome text on the login screen
