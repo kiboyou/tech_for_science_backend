@@ -29,7 +29,6 @@ db.sqlite3
 */migrations/__init__.py
 
 # Dossiers de fichiers statiques collectés
-/static/
 media/
 
 # fichiers secrets

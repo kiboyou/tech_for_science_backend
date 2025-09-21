@@ -110,7 +110,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
+        default=config("DATABASE_URL"),
         conn_max_age=600,   # connexions persistantes
         ssl_require=True    # Render recommande SSL
     )
@@ -119,8 +119,12 @@ DATABASES = {
 
 # DATABASES = {
 #     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "tech_for_science",
+#         "USER": "tech_for_science_user",
+#         "PASSWORD": "5pTK6BMQmteHd6u7eHhtNH6RogBi2Vbf",
+#         # "HOST": "localhost",
+#         "PORT": "5432",
 #     }
 # }
 
