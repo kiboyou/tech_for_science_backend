@@ -14,7 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from decouple import config
+from decouple import Csv, config
 from design import JAZZMIN_SETTINGS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG')
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='localhost,127.0.0.1')
 
 
 # Application definition
@@ -192,16 +192,19 @@ SIMPLE_JWT = {
 }
 
 
-# CORS_ALLOWED_ORIGINS = ['*']
-# CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
     'Authorization',
     'Content-Type',
 ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    cast=Csv(),
+    default='https://tech-for-science.vercel.app,http://localhost:3000'
+)
+
+# Optionally configure CSRF trusted origins for secure POSTs from the frontend
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', cast=Csv(), default='')
 
 
 # Design for admin panel
