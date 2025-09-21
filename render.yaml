@@ -2,11 +2,11 @@ services:
   - type: web
     name: tech-for-science-backend
     runtime: python3
-    rootDir: .
+    rootDir: tech_for_science_backend
     plan: free
     region: frankfurt
     # Upgrade pip first to ensure latest wheel support
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt && python manage.py collectstatic --noinput
+    buildCommand: pip install --upgrade pip && pip install -r requirement.txt && python manage.py collectstatic --noinput
     startCommand: python manage.py migrate --noinput && gunicorn config.wsgi:application --log-file -
     autoDeploy: true
     envVars:
